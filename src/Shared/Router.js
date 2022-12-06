@@ -15,6 +15,7 @@ import SubwayPage from "../Pages/SubwayPage";
 import AuthCode from "../Pages/AuthCode";
 import AddInfo from "../Pages/AddInfo";
 import SubSign from "../Pages/SubSign";
+import Kakaospot from "../Components/Kakaospot/Kakaospot";
 
 const Router = () => {
   return (
@@ -35,6 +36,7 @@ const Router = () => {
         <Route path="/converspage" element={<ConversPage />} />
         <Route path="/chattingpage" element={<ChattingPage />} />
         <Route path="/subwaypage" element={<SubwayPage />} />
+        <Route path="/kakaospot" element={<Kakaospot />} />
       </Routes>
     </BrowserRouter>
   );

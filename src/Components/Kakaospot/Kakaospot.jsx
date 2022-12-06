@@ -1,43 +1,48 @@
 import React, { useEffect, useState } from "react";
-const { kakao } = window;
-// import {
-//   Map,
-//   ZoomControl,
-//   MapMarker,
-//   CustomOverlayMap,
-// } from "react-kakao-maps-sdk";
+
+import { Map, MapMarker } from "react-kakao-maps-sdk";
+import styled from "styled-components";
 
 const Kakaospot = () => {
-  useEffect(() => {
-    const container = document.getElementById("map");
-    const options = {
-      center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-      level: 3,
-    };
-
-    const map = new kakao.maps.Map(container, options);
-    const markerPosition = new kakao.maps.LatLng(
-      37.365264512305174,
-      127.10676860117488
-    );
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(map);
-  }, []);
-
   const [state, setState] = useState({
+    addr: "",
     center: {
       lat: 33.450701,
-      lng: 126.570667,
+      lng: 126.570667, //지도상의 중심좌표
     },
     errMsg: null,
     isLoading: true,
   });
 
+  //아래 useEffect가 함수 보다 위에 찍혀야 더 정확한 위치 추출
   useEffect(() => {
+    getAddr(state.center.lat, state.center.lng);
+  });
+  // 현재 경도 위도 지도에 표시하는 로직 함수-아래 useEffect로 지도에 표시.
+  const getAddr = (lat, lng, arr) => {
+    const { kakao } = window;
+    const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
+    const coord = new kakao.maps.LatLng(lat, lng); //마커가 표시될 위치를 geolocation 좌표로 생성.
+
+    const callback = (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const arr = { ...result };
+        const _arr = arr[0].road_address.building_name;
+        console.log(arr); //현위치의 주소, 상세 건물 이름
+        console.log(_arr); //현위치 주소의 상세 위치: "js아파트 111동"
+      }
+    };
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+  };
+  console.log(state.center.lat, state.center.lng); //현재 위치 위도 경도
+  //현재 위치찎어주기
+
+  // 현재 접속 위치 포인트 잡아주기. 찍는 건 위의 함수가 표시해줄 거임.
+  // 현 위치에서 반경 30m까지 내 위치가 표시 될 수 있는 오차 존재.
+  useEffect(() => {
+    // GeoLocation을 이용해서 접속 위치를 얻어오기
+    //위도, 경도를 받아오기 위해 navigator.geolcation을 사용.
     if (navigator.geolocation) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setState((prev) => ({
@@ -61,35 +66,51 @@ const Kakaospot = () => {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
         ...prev,
-        errMsg: "geolocation을 사용할수 없어요..",
+        errMsg: "현재 위치를 알 수 없어서 기본 위치로 이동합니다",
         isLoading: false,
       }));
     }
   }, []);
+  //===================================================================
+  //내 위치 중심좌표 함 찍어보기 -위치 정보 테스트
+  // const spotInfow = state.center;
+  // console.log(spotInfow);
 
   return (
     <div>
-      <div id="map" style={{ width: "500px", height: "400px" }}></div>
-      <div // 지도를 표시할 Container
-        id="map"
+      <Map // 지도를 표시할 Container
         center={state.center}
         style={{
           // 지도의 크기
-          width: "500px",
-          height: "400px",
+          width: "340px",
+          height: "260px",
+          margin: "0px auto",
+          border: "1px solid pink",
+          borderRadius: "20px",
         }}
         level={3} // 지도의 확대 레벨
       >
         {!state.isLoading && (
-          <div position={state.center}>
-            <div style={{ padding: "5px", color: "#000" }}>
-              {state.errMsg ? state.errMsg : "여기에 계신가요?!"}
+          // MapMapker는 kakao 라이브러리, 마커를 생성.
+          <MapMarker position={state.center} content="현위치">
+            <div
+              style={{
+                // border: "1px solid green",
+                color: "pink",
+              }}
+            >
+              <p>현위치입니다</p>
             </div>
-          </div>
+          </MapMarker>
         )}
-      </div>
+      </Map>
     </div>
   );
 };
 
 export default Kakaospot;
+
+const ThisMap = styled.div`
+  border: 1px solid pink;
+  color: #000;
+`;
