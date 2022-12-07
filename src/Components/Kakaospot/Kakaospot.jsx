@@ -4,6 +4,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
 const Kakaospot = () => {
+  const { kakao } = window;
   const [state, setState] = useState({
     addr: "",
     center: {
@@ -15,13 +16,14 @@ const Kakaospot = () => {
   });
 
   //아래 useEffect가 함수 보다 위에 찍혀야 더 정확한 위치 추출
+
+  // 현재 경도 위도 지도에 표시하는 로직 함수-아래 useEffect로 지도에 표시.
   useEffect(() => {
     getAddr(state.center.lat, state.center.lng);
   });
-  // 현재 경도 위도 지도에 표시하는 로직 함수-아래 useEffect로 지도에 표시.
   const getAddr = (lat, lng, arr) => {
-    const { kakao } = window;
     const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
+
     const coord = new kakao.maps.LatLng(lat, lng); //마커가 표시될 위치를 geolocation 좌표로 생성.
 
     const callback = (result, status) => {
@@ -34,6 +36,8 @@ const Kakaospot = () => {
     };
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
+
+  console.log(getAddr);
   console.log(state.center.lat, state.center.lng); //현재 위치 위도 경도
   //현재 위치찎어주기
 
