@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SignUp from "../Pages/SignUp";
 import Login from "../Pages/Login";
 import GoogleLogin from "../Pages/GoogleLogin";
 import KakaoLogin from "../Pages/KakaoLogin";
@@ -16,6 +15,7 @@ import AuthCode from "../Pages/AuthCode";
 import AddInfo from "../Pages/AddInfo";
 import SubSign from "../Pages/SubSign";
 import Kakaospot from "../Components/Kakaospot/Kakaospot";
+import KakaoSearch from "../Components/Kakaospot/KakaoSearch";
 
 const Router = () => {
   return (
@@ -31,12 +31,12 @@ const Router = () => {
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/auth/google/callback" element={<GoogleLogin />} />
         <Route path="/auth/naver/callback" element={<NaverLogin />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/chatpage" element={<ChatPage />} />
         <Route path="/converspage" element={<ConversPage />} />
         <Route path="/chattingpage" element={<ChattingPage />} />
         <Route path="/subwaypage" element={<SubwayPage />} />
         <Route path="/kakaospot" element={<Kakaospot />} />
+        <Route path="/kakaosearch" element={<KakaoSearch />} />
       </Routes>
     </BrowserRouter>
   );
