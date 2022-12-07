@@ -1,7 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
+import { trainApi } from "../../Redux/Modules/Instance";
 
 const Kakaospot = () => {
   const { kakao } = window;
@@ -26,18 +28,24 @@ const Kakaospot = () => {
 
     const coord = new kakao.maps.LatLng(lat, lng); //마커가 표시될 위치를 geolocation 좌표로 생성.
 
-    const callback = (result, status) => {
+    const callback = async (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const arr = { ...result };
         const _arr = arr[0].road_address.building_name;
         console.log(arr); //현위치의 주소, 상세 건물 이름
         console.log(_arr); //현위치 주소의 상세 위치: "js아파트 111동"
+        // try {//백으로 현위치 정보보내기
+        //   const { data } = await trainApi.postMapInfo(_arr);
+        //   console.log(data);
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
     };
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
-  console.log(getAddr);
+  // console.log(getAddr);
   console.log(state.center.lat, state.center.lng); //현재 위치 위도 경도
   //현재 위치찎어주기
 
@@ -79,6 +87,12 @@ const Kakaospot = () => {
   //내 위치 중심좌표 함 찍어보기 -위치 정보 테스트
   // const spotInfow = state.center;
   // console.log(spotInfow);
+  const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
+
+  const coord = new kakao.maps.LatLng(state.center.lat, state.center.lng); //마커가 표시될 위치를 geolocation 좌표로 생성.
+
+  console.log("geocoder 정보", geocoder.coord2Address);
+  console.log("coord정보", coord);
 
   return (
     <div>
@@ -97,14 +111,16 @@ const Kakaospot = () => {
         {!state.isLoading && (
           // MapMapker는 kakao 라이브러리, 마커를 생성.
           <MapMarker position={state.center} content="현위치">
-            <div
+            {/* <div
               style={{
                 // border: "1px solid green",
                 color: "pink",
               }}
-            >
-              <p>현위치입니다</p>
-            </div>
+            > */}
+            {/* <p>
+                {state.errMsg ? state.errMsg : "현위치입니다"}
+              </p> */}
+            {/* </div> */}
           </MapMarker>
         )}
       </Map>

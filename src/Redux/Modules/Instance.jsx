@@ -49,6 +49,7 @@ export const trainApi = {
   postSubSign: (payload) => instance.post("/user/signup", payload),
   postUserId: (payload) => instance.post("/user/checkid", payload),
   postSignIn: (payload) => instance.post("/user/login", payload),
+  postMapInfo: (payload) => instance.post("/user/where", payload),
 
   // post: (payload) => instance.post("/url", payload),
   // get: () => instance.get("/url"),
