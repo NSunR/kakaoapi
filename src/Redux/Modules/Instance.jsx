@@ -176,7 +176,7 @@ instanceF.interceptors.response.use(
       console.log("status 401찍혀 210줄");
       alert("비정상적인 활동이 감지되어 로그인 화면으로 이동합니다.");
       removeCookie("token", { path: "/" });
-      // window.location.replace("/"); //이부분은 필요시 사용. useNavigate()대체함수
+      window.location.replace("/"); //이부분은 필요시 사용. useNavigate()대체함수
     } else if (statusValue === 401 && ok === 6) {
       //만료됐을 때
       console.log("새토큰장착", newToken);

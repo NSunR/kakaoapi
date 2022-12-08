@@ -1,20 +1,22 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
+
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-// import useInput from "../../MyTools/Hooks/UseInput";
-// import { trainApi } from "../../Redux/Modules/Instance";
+import useInput from "../../MyTools/Hooks/UseInput";
+import { trainApi } from "../../Redux/Modules/Instance";
 //지도 위치 표시되고 주소검색, 검색한 위치값, 내위치값, 위도 경도 차이.
 //건물 내에 있을 때 현재 위치에 대한 오차범위는 최소 20m,
 //사람이 붐빌 경우 최대 120m 정도 인듯
-// 오차범위가 0~120m이내라면 매칭ㄱ?
+// 오차범위가 0~120m이내라면 매칭ㄱ
 const Kakaospot = () => {
   //kakao를 인식하게 하기위해 선언해줌. 함수형에선 인식 잘 못 한다고함.
-
   const { kakao } = window;
+  //검색 장소의 위치 초기값들
 
   //현재 위치 불러오기 위한 초기값설정
   const [state, setState] = useState({
+    addr: "",
     center: {
       lat: 33.450701, //지도상의 내 위치의 위도
       lng: 126.570667, //지도상의 내 위치의 경도
@@ -33,7 +35,6 @@ const Kakaospot = () => {
     //////서버에 보내줄 정보 1.현재 위치 위경도.///////
     const coord = new kakao.maps.LatLng(lat, lng); //마커가 표시될 내 위치를 geolocation 좌표로 생성.
     console.log(coord);
-    console.log(geocoder);
 
     //현재위치값 불러오는 함수
     const geolocationView = () => {

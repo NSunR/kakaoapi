@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useInput from "../MyTools/Hooks/UseInput";
 import FrontHeader from "../Components/Header/FrontHeader";
@@ -18,6 +18,32 @@ const SubSign = () => {
     password: "",
     confirmpassword: "",
   });
+  // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [email, setEmail] = useState("");
+
+  //오류메세지 상태 저장
+  const [idMessage, setIdMessage] = useState("");
+  const [nameMessage, setNameMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
+
+  // 유효성 검사
+  const [isId, setIsId] = useState(false);
+  const [isname, setIsName] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
+
+  //아이디 유효성
+  const idRegExp = /^[a-zA-z0-9]{,12}$/;
+  //비밀번호 유효성
+  const pwRegExp = /^[a-zA-z0-9]{4,12}$/;
+  //비밀번호 확인 유효성
+  const RegExp = /^[a-zA-z0-9]{10,20}$/;
 
   // 아이디 중복
   const IdOk = async (e) => {
@@ -81,8 +107,6 @@ const SubSign = () => {
         }
         return;
       });
-
-    reset();
   };
 
   return (
@@ -110,16 +134,14 @@ const SubSign = () => {
                         placeholder="아이디 입력"
                         className="w-[253px]  text-[1rem] border-b-[1px] border-[#71C9DD]"
                       />
-                      <div className="w-[74px] h-[30px] float-right bg-[#C3F4FF] ml-[4px] p-[4px] rounded-[20px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] text-[0.9rem] text-center">
+                      <div className="w-[74px] h-[30px] flex justify-center float-right bg-[#C3F4FF] ml-[4px] p-[4px] rounded-[20px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] text-[0.9rem] text-center">
                         <button onClick={(e) => IdOk(e)}>중복확인</button>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {Info.snsId.length === 0 ? (
-                  <div></div>
-                ) : Info.snsId.length <= 5 || Info.snsId.length >= 15 ? (
+                {Info.snsId.length <= 5 || Info.snsId.length >= 15 ? (
                   <ErrorMessage>
                     아이디는 6자~15자 이내로 영문 혹은 숫자를 조합해주세요.
                   </ErrorMessage>
@@ -139,11 +161,14 @@ const SubSign = () => {
                       value={Info.password}
                       onChange={onChangeValue}
                       placeholder="비밀번호 입력"
-                      className="w-[253px] mt-[10px] text-[1rem] border-b-[1px]  border-[#71C9DD]"
+                      className="w-[253px] mt-[10px] pb-[2px] text-[1rem] border-b-[1px]  border-[#71C9DD]"
                     />
                   </div>
-                  {Info.password.length === 0 ? (
-                    <div></div>
+                  {Info.snsId.length === 0 ? (
+                    <ErrorMessage>
+                      비밀번호는 대,소문자 또는 숫자를 포함한 10자~20자 이하로
+                      적어주세요
+                    </ErrorMessage>
                   ) : Info.password.replace(" ", "").includes(Info.snsId) ? (
                     <ErrorMessage>
                       패스워드에 닉네임이 포함되어있습니다.
@@ -171,11 +196,9 @@ const SubSign = () => {
                   value={Info.confirmpassword}
                   onChange={onChangeValue}
                   placeholder="비밀번호 입력"
-                  className="w-[253px] mt-[10px] text-[1rem] border-b-[1px]  border-[#71C9DD]"
+                  className="w-[253px] mt-[10px] pb-[2px] text-[1rem] border-b-[1px]  border-[#71C9DD]"
                 />
-                {Info.password.length === 0 ? (
-                  <div></div>
-                ) : Info.password !== Info.confirmpassword ? (
+                {Info.password !== Info.confirmpassword ? (
                   <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
                 ) : (
                   <div></div>
@@ -211,6 +234,7 @@ const ErrorMessage = styled.div`
   width: 291px;
   color: #808080;
 
+  margin-top: 4px;
   font-family: "MonoplexKR-Regular";
   font-size: 0.8rem;
 `;
@@ -218,7 +242,6 @@ const ErrorMessage = styled.div`
 const InfoBox = styled.div`
   @media only screen and (min-width: 375px) {
     width: 100%;
-    height: 812px;
   } ;
 `;
 

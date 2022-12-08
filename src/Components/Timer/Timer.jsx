@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-//타이머(Timer) 구현할 컴포넌트 내용 생성
-//props로 mm은 분(minutes), ss는 초(seconds) 받아오기.
-const Timer = ({ mm, ss }) => {
-  const [minutes, setMinutes] = useState(parseInt(mm));
-  const [seconds, setSeconds] = useState(parseInt(ss));
+const padNumber = (num, length) => {
+  return String(num).padStart(length, "0");
+};
+
+const Clock = () => {
+  let now = new Date();
+  const [hour, setHour] = useState(padNumber(now.getHours(), 2));
+  const [min, setMin] = useState(padNumber(now.getMinutes(), 2));
+  const [sec, setSec] = useState(padNumber(now.getSeconds(), 2));
+  const interval = useRef(null);
+
+  useEffect(() => {
+    interval.current = setInterval(() => {
+      now = new Date();
+      setHour(padNumber(now.getHours(), 2));
+      setMin(padNumber(now.getMinutes(), 2));
+      setSec(padNumber(now.getSeconds(), 2));
+    }, 1000);
+    // clean-up 함수 리턴!
+    return () => clearInterval(interval.current);
+  }, []);
+
   return (
     <div>
-      {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+      {hour} : {min} : {sec}
     </div>
   );
 };
 
-export default Timer;
+export default Clock;

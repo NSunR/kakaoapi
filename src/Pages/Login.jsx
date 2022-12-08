@@ -13,25 +13,27 @@ import signintext from "../Assets/SignIn/signinText.svg";
 import { setCookie } from "../MyTools/Hooks/MyCookie";
 
 const Login = () => {
-  const navigator = useNavigate();
-  const cookies = new Cookies();
-  // const [tokens, setTokens] = useCookies(["token"]);
+  const [cookie, setCookie, removeCookie] = useCookies();
+  const navigate = useNavigate();
+  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=randomState&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`;
+  const KAKAO = `${process.env.REACT_APP_KAKAO_URL}`;
+  const GOOGLE = `${process.env.REACT_APP_GOOGLE_URL}`;
+
   const [Info, setInfo, onChangeValue, reset] = useInput({
     snsId: "",
     password: "",
   });
 
-  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_CALLBACK_URL}&response_type=code`;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_CALLBACK_URL}&response_type=code`;
-  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20openid&response_type=code&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}`;
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=randomState&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`;
-
+  //가지고 있던 토큰 없애기
+  useEffect(() => {
+    removeCookie("token");
+  }, []);
   const kakoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    window.location.assign(KAKAO);
   };
 
   const googleLogin = () => {
-    window.location.href = GOOGLE_AUTH_URL;
+    window.location.assign(GOOGLE);
   };
 
   const naverLogin = () => {
@@ -73,8 +75,6 @@ const Login = () => {
         const errMsg = err.response.data.message;
         alert(errMsg);
       });
-
-    reset();
   };
 
   const signUp = (e) => {
@@ -125,7 +125,7 @@ const Login = () => {
                     <div className="w-[340px] mt-[6px] flex justify-between">
                       <button
                         onClick={(e) => signUp(e)}
-                        className="w-[168px] border-r-[1px] border-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.5)]"
+                        className="w-[168px] border-r-[2px] border-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.5)]"
                       >
                         회원가입
                       </button>
@@ -143,8 +143,8 @@ const Login = () => {
                 </div>
               </form>
             </div>
-            <div className="absolute bottom-[40px]">
-              <div className="gap-[10px] flex flex-col justify-center items-center">
+            <div className="absolute bottom-[40px] ">
+              <div className="gap-[10px] mx-[auto] my-[0px] flex flex-col justify-center items-center">
                 {/* 카카오로그인 */}
                 <button
                   className="rounded-[12px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
@@ -190,7 +190,7 @@ const Login1 = styled.div`
 `;
 
 const LoginBox = styled.div`
-  width: 375px;
+  width: 100%;
   height: 812px;
   @media screen and (min-width: 320px) and (max-width: 375px) {
     font-size: 1rem;

@@ -7,21 +7,13 @@ import useInput from "../../MyTools/Hooks/UseInput";
 
 const KakaoSearch = () => {
   const { kakao } = window;
-  //검색 장소의 위치 초기값들
-  const [state, setState] = useState({
-    addr: "",
-    center: {
-      lat: 33.450701, //지도상의 내 위치의 위도
-      lng: 126.570667, //지도상의 내 위치의 경도
-    },
-    errMsg: null,
-    isLoading: true,
-  });
   const stationRef = useRef();
   const [name, setName, onChangeValue, reset] = useInput({
     // station: "",
   });
-  const [info, setInfo] = useInput();
+  const [info, setInfo, infonChangeValue, infoReset] = useInput({
+    station: "",
+  });
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
 
@@ -53,6 +45,7 @@ const KakaoSearch = () => {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
+
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
       }
@@ -98,8 +91,9 @@ const KakaoSearch = () => {
                   type="text"
                   name="station"
                   id="station"
-                  value={name.station}
-                  onChange={onChangeValue}
+                  ref={stationRef}
+                  value={info.station}
+                  onChange={infonChangeValue}
                 />
               </div>
               <button onClick={(e) => onStationHandle(info.station)}>

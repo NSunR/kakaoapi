@@ -15,7 +15,8 @@ import AuthCode from "../Pages/AuthCode";
 import AddInfo from "../Pages/AddInfo";
 import SubSign from "../Pages/SubSign";
 import Kakaospot from "../Components/Kakaospot/Kakaospot";
-import KakaoSearch from "../Components/Kakaospot/KakaoSearch";
+import KakaoSearch from "../Components/Kakaospot/KakaoSearch.jsx";
+import Timer from "../Components/Timer/Timer";
 
 const Router = () => {
   return (
@@ -37,6 +38,7 @@ const Router = () => {
         <Route path="/subwaypage" element={<SubwayPage />} />
         <Route path="/kakaospot" element={<Kakaospot />} />
         <Route path="/kakaosearch" element={<KakaoSearch />} />
+        <Route path="/timer" element={<Timer />} />
       </Routes>
     </BrowserRouter>
   );

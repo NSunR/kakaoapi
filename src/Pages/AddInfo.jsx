@@ -215,11 +215,7 @@ const SignUp = () => {
                       </div>
                       <div className="flex justify-center">
                         <div className="float-left mr-[61px]">
-                          <label
-                            htmlFor="male"
-                            className="h-[61px]
-                          "
-                          >
+                          <label htmlFor="male" className="h-[61px]">
                             <img
                               // src={!imgClick ? <Male /> : <MaleColor />}
                               src={!imgClick ? male : maleColor}
@@ -256,10 +252,11 @@ const SignUp = () => {
                         </div>
                       </div>
                       <div>
-                        <h2 className="text-[1rem] font-bold">카테고리</h2>
-                        <div className="w-[313px] text-gray-300 text-[1.2rem] font-bold">
-                          {/* <InfoCategory /> */}서비스 준비중입니다.
-                        </div>
+                        {/* <h2 className="text-[1rem] font-bold">카테고리</h2> */}
+                        {/* <div className="w-[313px] text-gray-300 text-[1.2rem] font-bold"> */}
+                        {/* <InfoCategory /> */}
+                        {/* 서비스 준비중입니다. */}
+                        {/* </div> */}
                       </div>
                       {/* <div className="absolute bottom-[0px]"> */}
                       {/* <div className="w-[375px] "> */}
