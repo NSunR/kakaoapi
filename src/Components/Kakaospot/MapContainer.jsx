@@ -13,9 +13,8 @@ const MapContainer = ({ searchPlace, setPlace, onChange01 }) => {
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
-
     const ps = new kakao.maps.services.Places();
-    console.log();
+    console.log(0);
     ps.keywordSearch(onChange01, placesSearchCB);
 
     console.log("searchPlace console", 2);
