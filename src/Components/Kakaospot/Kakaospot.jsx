@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import axios from "axios";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
@@ -10,14 +10,17 @@ import styled from "styled-components";
 // 오차범위가 0~120m이내라면 매칭ㄱ?
 const Kakaospot = () => {
   //kakao를 인식하게 하기위해 선언해줌. 함수형에선 인식 잘 못 한다고함.
-
+  const mapRef = useRef();
+  const [info, setInfo] = useState();
   const { kakao } = window;
 
   //현재 위치 불러오기 위한 초기값설정
   const [state, setState] = useState({
     center: {
-      lat: 33.450701, //지도상의 내 위치의 위도
-      lng: 126.570667, //지도상의 내 위치의 경도
+      lat: "", //지도상의 내 위치의 위도
+      // lat: 33.450701, //지도상의 내 위치의 위도
+      lng: "", //지도상의 내 위치의 경도
+      // lng: 126.570667, //지도상의 내 위치의 경도
     },
     errMsg: null,
     isLoading: true,
@@ -26,7 +29,7 @@ const Kakaospot = () => {
   // 현재 경도 위도 지도에 표시하기 위한 함수-아래 useEffect로 지도에 표시.
   useEffect(() => {
     getAddr(state.center.lat, state.center.lng);
-  }, []);
+  }, [state.center.lat, state.center.lng]);
 
   const getAddr = (lat, lng) => {
     const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
@@ -37,6 +40,7 @@ const Kakaospot = () => {
 
     //현재위치값 불러오는 함수
     const geolocationView = () => {
+      console.log(1);
       // navigator.geolocation.watchPosition(
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -70,8 +74,11 @@ const Kakaospot = () => {
     //내 위치
     const callback = async (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
+        const xSpot = result;
+        console.log(xSpot);
         const arr = { ...result };
         const _arr = arr[0].road_address.building_name;
+        console.log(arr);
         console.log("-----현재 위치의 주소: ", arr); //현위치의 지역주소(도,시,구,동,로), 상세 주소(건물 이름
         console.log("-----현재 위치의 상세주소: ", _arr); //현위치 주소의 상세 위치: "js아파트 111동"
         // try {//백으로 현위치 정보보내기
@@ -82,11 +89,17 @@ const Kakaospot = () => {
         // }
         const currentSpotW = state.center.lat; //지도상의 내 위치 위도
         const currnetSpotK = state.center.lng; //지도상의 내 위치 경도
-        // console.log(SpotW);
-        // console.log(SpotK);
+
+        console.log(currentSpotW);
+        console.log(currnetSpotK);
       }
     };
-    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    const currentSpotW = state.center.lat; //지도상의 내 위치 위도
+    const currnetSpotK = state.center.lng; //지도상의 내 위치 경도
+
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback, "강남역");
+    // setState(currentSpotW, currnetSpotK);
+    // geocoder.addressSearch(coord.getLng(), coord.getLat(), callback, callback);
   };
   //=========함수 설명 :
   //geolocation (gps)접속위치 가져와줌
@@ -109,7 +122,60 @@ const Kakaospot = () => {
   //마커가 표시될 위치를 geolocation 좌표로 생성.
   // console.log("geocoder 정보", geocoder.coord2Address); //함수종류담김.
   // console.log("coord정보", coord); //현재 표시된 위치 위경도.
-
+  const Main = () => {
+    return (
+      <>
+        <Map // 지도를 표시할 Container
+          center={{ lat: 33.452613, lng: 126.570888 }}
+          style={{
+            // 지도의 크기
+            width: "100%",
+            height: "450px",
+          }}
+          level={3} // 지도의 확대 레벨
+          ref={mapRef}
+        >
+          <button
+            onClick={() => {
+              const map = mapRef.current;
+              setInfo({
+                center: {
+                  lat: map.getCenter().getLat(),
+                  lng: map.getCenter().getLng(),
+                },
+                level: map.getLevel(),
+                typeId: map.getMapTypeId(),
+                swLatLng: {
+                  lat: map.getBounds().getSouthWest().getLat(),
+                  lng: map.getBounds().getSouthWest().getLng(),
+                },
+                neLatLng: {
+                  lat: map.getBounds().getNorthEast().getLat(),
+                  lng: map.getBounds().getNorthEast().getLng(),
+                },
+              });
+            }}
+          >
+            정보 가져 오기!
+          </button>
+          {info && (
+            <div>
+              <p>위도 : {info.center.lat}</p>
+              <p>경도 : {info.center.lng}</p>
+              <p>레벨 : {info.level}</p>
+              <p>타입 : {info.typeId}</p>
+              <p>
+                남서쪽 좌표 : {info.swLatLng.lat}, {info.swLatLng.lng}
+              </p>
+              <p>
+                북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}
+              </p>
+            </div>
+          )}
+        </Map>
+      </>
+    );
+  };
   return (
     <div>
       <div>
@@ -122,26 +188,34 @@ const Kakaospot = () => {
             margin: "0px auto",
             border: "1px solid #71C9DD",
             borderRadius: "20px",
+            // display: "none",
           }}
           level={3} // 지도의 확대 레벨
         >
           {!state.isLoading && (
             // MapMapker는 kakao 라이브러리, 마커를 생성.
-            <MapMarker position={state.center} content="현위치">
-              {/* <div
-              style={{
-                // border: "1px solid green",
-                color: "pink",
-              }}
-            > */}
-              {/* 
+            <MapMarker
+              position={state.center}
+              content="현위치"
+              // style={{
+              //   // ,
+              // }}
+            >
+              <div
+                style={{
+                  // border: "1px solid green",
+                  color: "pink",
+                }}
+              >
                 {state.errMsg ? state.errMsg : "현위치입니다"}
-               */}
-              {/* </div> */}
+              </div>
             </MapMarker>
           )}
         </Map>
       </div>
+      <>
+        <Main />
+      </>
     </div>
   );
 };

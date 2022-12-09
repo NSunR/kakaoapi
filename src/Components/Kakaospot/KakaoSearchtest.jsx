@@ -24,7 +24,7 @@ const KakaoSearch = () => {
     e.preventDefault();
     if (!map) return;
     const ps = new kakao.maps.services.Places();
-    ps.keywordSearch(info.station, (data, status, _pagination) => {
+    ps.keywordSearch("강남역", (data, status, _pagination) => {
       if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -81,28 +81,7 @@ const KakaoSearch = () => {
           </MapMarker>
         ))}
       </Map>
-      <div>
-        <StationName>
-          <form>
-            <div>
-              <div>
-                <label>출발역</label>
-                <NameInput
-                  type="text"
-                  name="station"
-                  id="station"
-                  ref={stationRef}
-                  value={info.station}
-                  onChange={infonChangeValue}
-                />
-              </div>
-              <button onClick={(e) => onStationHandle(info.station)}>
-                매칭
-              </button>
-            </div>
-          </form>
-        </StationName>
-      </div>
+      <div></div>
     </div>
   );
 };
