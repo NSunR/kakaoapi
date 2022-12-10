@@ -1,42 +1,45 @@
-//위치정보를 가져와서 좌표를 찍어주는 로직
-import { data } from "autoprefixer";
-import React, { useEffect, useState } from "react";
+//시도해 본 것, 위치정보를 가져와서 좌표를 찍어주는 로직테스트
+import React, { useEffect } from "react";
+import { useMemo } from "react";
 
 const { kakao } = window;
 
-const MapContainer = ({ searchPlace }) => {
-  const [Data, setData] = useState({});
+const MapContainer = ({ searchPlace, setPlace, onChange01 }) => {
   useEffect(() => {
+    console.log(1);
+    //지도틀 가져오는 로직
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById("myMap");
     const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
+    //지도에 좌표
     const map = new kakao.maps.Map(container, options);
     const ps = new kakao.maps.services.Places();
+    console.log(0);
+    ps.keywordSearch(onChange01, placesSearchCB);
 
-    ps.keywordSearch(searchPlace, placesSearchCB);
+    console.log("searchPlace console", 2);
+    console.log(searchPlace); //키워드로 장소검색하기로
+    //굳이 마운트 될 때가 아니라
 
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         let bounds = new kakao.maps.LatLngBounds();
-        console.log(data); //검색한 데이터가
         console.log(bounds);
+
         for (let i = 0; i < data.length; i++) {
           displayMarker(data[i]);
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
-        console.log("bounds 위도 경도 생성", bounds);
+        console.log(data);
+
         map.setBounds(bounds);
       }
-      console.log(data);
-      setData(data);
     }
-    const 데이터값 = data;
-    console.log(Data);
-
-    function displayMarker(place) {
+    console.log(3);
+    const displayMarker = (place) => {
       let marker = new kakao.maps.Marker({
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x),
@@ -52,8 +55,8 @@ const MapContainer = ({ searchPlace }) => {
         );
         infowindow.open(map, marker);
       });
-    }
-  }, [searchPlace]);
+    };
+  }, [searchPlace, setPlace, onChange01]);
 
   return (
     <div
@@ -61,7 +64,7 @@ const MapContainer = ({ searchPlace }) => {
       style={{
         width: "500px",
         height: "500px",
-        display: "none",
+        // display: "none",
       }}
     ></div>
   );

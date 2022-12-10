@@ -1,3 +1,5 @@
+//인풋값없이 함수에 검색값입력하는 바로 지도 좌표가 찍히는 로직
+//
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -30,6 +32,7 @@ const KakaoSearch = () => {
         // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds();
         let markers = [];
+        console.log(data);
         console.log(bounds);
         console.log(markers);
         for (var i = 0; i < data.length; i++) {

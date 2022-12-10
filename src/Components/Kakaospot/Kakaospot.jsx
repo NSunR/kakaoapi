@@ -1,3 +1,4 @@
+//현재 위치만 보여주는 지도
 import React, { useEffect, useRef, useState } from "react";
 // import axios from "axios";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
@@ -10,9 +11,10 @@ import styled from "styled-components";
 // 오차범위가 0~120m이내라면 매칭ㄱ?
 const Kakaospot = () => {
   //kakao를 인식하게 하기위해 선언해줌. 함수형에선 인식 잘 못 한다고함.
+  const { kakao } = window;
+
   const mapRef = useRef();
   const [info, setInfo] = useState();
-  const { kakao } = window;
 
   //현재 위치 불러오기 위한 초기값설정
   const [state, setState] = useState({
@@ -213,9 +215,7 @@ const Kakaospot = () => {
           )}
         </Map>
       </div>
-      <>
-        <Main />
-      </>
+      <>{/* <Main /> */}</>
     </div>
   );
 };

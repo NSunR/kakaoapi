@@ -39,6 +39,7 @@ const Router = () => {
         <Route path="/kakaospot" element={<Kakaospot />} />
         <Route path="/kakaosearch" element={<KakaoSearch />} />
         <Route path="/timer" element={<Timer />} />
+        <Route path="/kakaosearch" element={<KakaoSearch />} />
       </Routes>
     </BrowserRouter>
   );
