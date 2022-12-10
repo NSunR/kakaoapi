@@ -12,17 +12,13 @@ const TrainMaching = () => {
   const [InputText, setInputText] = useInput("");
   const [InputText02, setInputText02] = useInput("");
   const [Place, setPlace] = useState("");
-  const [Info, setInfo, infonChangeValue, InfoReset] = useInput({
-    station: "",
-  });
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
 
   const onChange = (e) => {
     e.preventDefault();
     setInputText(e.target.value);
-    // setPlace(e.target.value);
-    //////
+
     if (!map) return;
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(InputText, (data, status, _pagination) => {
@@ -31,11 +27,9 @@ const TrainMaching = () => {
         // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds();
         let markers = [];
-        console.log(data);
-        console.log(bounds);
-        console.log(markers);
+        console.log(data); //위치데이터
+
         for (var i = 0; i < data.length; i++) {
-          // @ts-ignore
           markers.push({
             position: {
               lat: data[i].y,
@@ -43,7 +37,7 @@ const TrainMaching = () => {
             },
             content: data[i].place_name,
           });
-          // @ts-ignore
+
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(markers);
@@ -52,8 +46,6 @@ const TrainMaching = () => {
         map.setBounds(bounds);
       }
     });
-
-    /////
   };
 
   const onChange02 = (e) => {
@@ -68,6 +60,9 @@ const TrainMaching = () => {
 
   return (
     <>
+      {/* 맵 */}
+      <MapContainer searchPlace={InputText} />
+      {/* 폼 */}
       <form className="inputForm" onSubmit={handleSubmit}>
         <input
           placeholder="타실 역을 입력하세요"
@@ -79,27 +74,14 @@ const TrainMaching = () => {
           onChange={onChange02}
           value={InputText02}
         />
-        {/* <button type="submit" className="border ">
-          검색
-        </button> */}
-        <button type="submit" className="border">
-          본래는 검색
-        </button>
+
         <button type="submit" className="border">
           매칭
         </button>
       </form>
-      <MapContainer searchPlace={InputText} />
-      <Kakaospot />
+      {/* <Kakaospot /> */}
     </>
   );
 };
 
 export default TrainMaching;
-
-// 1. 강남역(좌표o)
-// 2. ㅅ
-// 1. 강남역(좌표o)
-// 2. 서
-
-// 강남역

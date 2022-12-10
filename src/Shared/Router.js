@@ -17,6 +17,7 @@ import SubSign from "../Pages/SubSign";
 import Kakaospot from "../Components/Kakaospot/Kakaospot";
 import KakaoSearch from "../Components/Kakaospot/KakaoSearch.jsx";
 import Timer from "../Components/Timer/Timer";
+import MapContainer from "../Components/Kakaospot/MapContainer";
 
 const Router = () => {
   return (
@@ -40,6 +41,7 @@ const Router = () => {
         <Route path="/kakaosearch" element={<KakaoSearch />} />
         <Route path="/timer" element={<Timer />} />
         <Route path="/kakaosearch" element={<KakaoSearch />} />
+        <Route path="/MapContainer" element={<MapContainer />} />
       </Routes>
     </BrowserRouter>
   );
