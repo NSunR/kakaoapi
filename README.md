@@ -2,12 +2,14 @@
 
 ## 9기 실전프로젝트, 항해 99
 
-### 소개
+## 발표영상 제출 하루 전에 완성했지만
+등록되지 못해 아쉬운 위치 기반.
 
-- FE : 4조 김재우, 이상현, 남해리
-- BE : 4조 안태환, 오윤지, 성용환
-- 사용 편집기 : Visual Studio Code(vscode)
-- 언어 및 프레임워크와 라이브러리 : 
-FE: React, Javascript, styled-component, tailwind
-BE: nodejs,Javascript,JWT,PASSPORT,mySQL,swagger,socketio
+### 그래도 만든 보람이 있었다.
+이걸 토대로 위치기반으로 제작할 수 있는 서비스가 있다면
+좀 더 다듬어서 쓸 수 있을 것 같다.
 
+숨은 팀원 은민감자의 도움와 프론트 최강자분의 힌트로
+코드를 완성할 수 있었다.
+
+감사하다!
