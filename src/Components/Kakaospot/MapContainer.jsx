@@ -144,6 +144,7 @@ const MapContainer = ({ searchPlace }) => {
   //currSpot.currW, currSpot.currK
   console.log("인풋값 좌표", searchWK);
   //searchWk.searchW , searchWK.searchK
+
   //현재 위치값~ 인풋 출발역 값 좌표 두 지점 간의 거리
   //계산 라이브러리 geolib => getDistance() 함수
   //getDistance(위도, 경도, )
@@ -158,6 +159,7 @@ const MapContainer = ({ searchPlace }) => {
     }
   );
   console.log(WKdata);
+
   return (
     <div>
       <div
