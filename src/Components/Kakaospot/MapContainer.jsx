@@ -27,7 +27,7 @@ const MapContainer = ({ searchPlace }) => {
     isLoading: true,
   });
 
-  //현재 위치 따로 저장해서 하위 컴포넌트 MapContainer로 보낼 위도, 경도값
+  //현재 위치 따로 저장할 위도, 경도값
   const [currSpot, setCurrSpot] = useState({
     currW: 0,
     currK: 0,
