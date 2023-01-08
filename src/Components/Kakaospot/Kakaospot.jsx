@@ -111,27 +111,6 @@ const Kakaospot = () => {
     // setState(currentSpotW, currnetSpotK);
     // geocoder.addressSearch(coord.getLng(), coord.getLat(), callback, callback);
   };
-  //=========함수 설명 :
-  //geolocation (gps)접속위치 가져와줌
-  // navigator.geolocation - 현재 위치 가져오기, 현재 위치의 위도, 경도를 가져와줌
-  // getCurrentPosition - 현재 위치찍어주기
-  // 현재 접속 위치 포인트 잡아주기. 찍는 건 위의 함수가 표시해줄 거임.
-
-  //if(navigaor.geolocation) => gps사용할 수 있는 지, getCurrentPosition => 현재위치가져오는함수
-  //getCurrentPosition(), watchposition() 로 위치지점을 가져올 수 있는데
-  //watchposition()이 더 정확하다는 의견이 있음.
-  // console.log(getAddr);
-
-  //===================================================================
-  //내 위치 중심좌표 함 찍어보기 -위치 정보 테스트
-  // const spotInfow = state.center;
-  // console.log(spotInfow);
-  ////===================현위치 정보 알고싶으면 여기 해제=========
-  // const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
-  // const coord = new kakao.maps.LatLng(state.center.lat, state.center.lng);
-  //마커가 표시될 위치를 geolocation 좌표로 생성.
-  // console.log("geocoder 정보", geocoder.coord2Address); //함수종류담김.
-  // console.log("coord정보", coord); //현재 표시된 위치 위경도.
 
   return (
     <div>
@@ -190,3 +169,25 @@ const NameInput = styled.input`
 
   font-size: 1.2rem;
 `;
+
+//=========함수 설명 :
+//geolocation (gps)접속위치 가져와줌
+// navigator.geolocation - 현재 위치 가져오기, 현재 위치의 위도, 경도를 가져와줌
+// getCurrentPosition - 현재 위치찍어주기
+// 현재 접속 위치 포인트 잡아주기. 찍는 건 위의 함수가 표시해줄 거임.
+
+//if(navigaor.geolocation) => gps사용할 수 있는 지, getCurrentPosition => 현재위치가져오는함수
+//getCurrentPosition(), watchposition() 로 위치지점을 가져올 수 있는데
+//watchposition()이 더 정확하다는 의견이 있음.
+// console.log(getAddr);
+
+//===================================================================
+//내 위치 중심좌표 함 찍어보기 -위치 정보 테스트
+// const spotInfow = state.center;
+// console.log(spotInfow);
+////===================현위치 정보 알고싶으면 여기 해제=========
+// const geocoder = new kakao.maps.services.Geocoder(); //좌표-주소변환 함수
+// const coord = new kakao.maps.LatLng(state.center.lat, state.center.lng);
+//마커가 표시될 위치를 geolocation 좌표로 생성.
+// console.log("geocoder 정보", geocoder.coord2Address); //함수종류담김.
+// console.log("coord정보", coord); //현재 표시된 위치 위경도.

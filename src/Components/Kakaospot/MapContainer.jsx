@@ -50,7 +50,7 @@ const MapContainer = ({ searchPlace }) => {
     console.log(coord);
     // console.log(geocoder);
 
-    //현재위치값 불러오는 함수
+    //현재위치값의 위도와 경도를 불러오는 함수
     const geolocationView = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -107,8 +107,7 @@ const MapContainer = ({ searchPlace }) => {
   };
   // };
 
-  //////
-  //////
+  ///인풋값(출발역) 위치의 위도와 경도를 불러오는 함수
   console.log("인풋값 좌표", searchWK);
   // const [Data, setData] = useState({});
   useEffect(() => {
